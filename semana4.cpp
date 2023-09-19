@@ -77,5 +77,6 @@ string expresiones1(int posicion){
             }
         }
         return expresion_aux2;
+        
 }
 

@@ -51,6 +51,7 @@ void identificador(string expresion) {
     }
 }
 
+
 void imprimir_expresiones(int expresiones){
     string expresionP;
     string expresionP2;
@@ -90,26 +91,6 @@ string expresiones1(int posicion){
     string expresion_aux6;
     cout<<expresionR[posicion]<<endl;
     for(int p=0;p<expresionR[posicion].length();p++){
-            /*if(expresionR[posicion][p]==')' && expresionR[posicion][p+1]=='*'){
-                for(int r=p;r>=0;r--){
-                    if(expresionR[posicion][r]=='('){
-                        int repeticiones = 0 + rand() % 10 ;
-                        for(int m=r+1;m<=p-1;m++){
-                            expresion_aux4+=expresionR[posicion][m];
-                            expresion_aux5+=expresion_aux4;
-                        }
-                        cout<<"expresion_aux5: "<<expresion_aux5<<endl;
-                        for(int z=0;z<repeticiones;z++){
-                            expresion_aux6+=expresion_aux5;
-                            expresion_aux2+=expresion_aux6;
-                        }
-                    }
-                    else{
-
-                    }
-                }
-                p++;
-            }*/
             if(expresionR[posicion][p]=='('){
                 for(int r=p;r<expresionR[posicion].length();r++){
                     if(expresionR[posicion][r]==')'){
