@@ -1,16 +1,10 @@
-#include<iostream>
+#include <iostream>
 #include <sstream>
 #include <vector>
-#include<cstdlib>
-#include<ctime>
-// (a||ab)*
-/*a
-ab
-aab
-aba
-abab
-aa
-*/
+#include <cstdlib>
+#include <ctime>
+#include <cmath>
+#include <math.h>
 
 
 using namespace std;
@@ -24,7 +18,7 @@ void identificador(string expresion);
 vector<string> identificador2(string expresion);
 string interpretador(string expresion);
 bool validador (string expresion,string vocabyulario[],int tamanio );
-string expresionRecursiva(string expresion);
+
 
 int main(){
     srand(time(NULL));
@@ -54,7 +48,8 @@ int main(){
         for(int i=0;i<expresiones;i++){
             int posicion = 0 + rand() % expresionR.size() ;
             cout<<"Expresion: "<<expresionR[posicion]<<endl;
-            cout<<interpretador(expresionR[posicion])<<endl;
+            /*cout<<interpretador(expresionR[posicion])<<endl;*/
+            interpretador(expresionR[posicion]);
         }
     }
     
@@ -158,6 +153,8 @@ string interpretador(string expresion){
     string expresion_aux4;
     string expresion_resultante;
     string expresionaux5;
+    string expresionaux6;
+    string expresion_aux7;
     vector<string> vector_expresiones;
 
     for(int i=0;i<expresion.length();i++){
@@ -172,21 +169,53 @@ string interpretador(string expresion){
                     
                     vector_expresiones=identificador2(expresion_aux2);
                     expresionR2.clear();
-                    // (aba||a*)abba
+                    // (aba||a*)
                     if(vector_expresiones.size()==1){
-                        expresionaux5=expresionRecursiva(vector_expresiones[0]);
+                        expresionaux5=interpretador(vector_expresiones[0]);
                         expresion_resultante+=expresionaux5;
                         i=i+expresion_aux2.length()+1;
                     }
-                    else{
-                        if(expresion[b+1]=='*'){
-                            int repeticiones = 0 + rand() % 4 ;
-                            for(int z=0;z<repeticiones;z++){
-                                int posicion = 0 + rand() % vector_expresiones.size() ;
-                                expresion_aux4=expresionRecursiva(vector_expresiones[posicion]);
-                                expresion_aux3+=expresion_aux4;
 
+                    /*
+                    ab
+                    a
+                    utlizamos la primera iteracion
+                    abab   ab vector_expresiones[0] nuevo_vector[0]
+                    aba    ab vector_expresiones[1] nuevo_vector[1]
+                    aab     a vector_expresiones[0] nuevo_vector[2]
+                    aa      a vector_expresiones[1] nuevo_vector[3]
+                    utilizamos la segunda iteracion
+                    ababab ab nuevo_vector[0] 
+                    ababa  ab nuevo_vector[1]
+                    abaab  ab nuevo_vector[2]
+                    abaa   ab nuevo_vector[3]
+                    aabab  a nuevo_vector[0]
+                    aaba   a nuevo_vector[1]
+                    aaab   a nuevo_vector[2]
+                    aaa    a nuevo_vector[3]
+                    */
+                    else{
+                        cout<<vector_expresiones.size()<<endl;
+                        if(expresion[b+1]=='*'){
+                            int repeticiones = 3;
+                            for(int z=0;z<repeticiones;z++){
+                                for(int y=0;y<vector_expresiones.size();y++){
+                                    expresion_aux4=interpretador(vector_expresiones[y]);
+                                    for(int y=0;y<z+1;y++){
+    /*                                 int iteraciones=pow(vector_expresiones.size(),z+1);
+                                        for(int j=0;j<iteraciones;j++ ){
+                                            cout<<iteraciones<<endl;
+                                        }*/
+                                        expresionaux6+=expresion_aux4;
+                                        expresion_aux3+=expresionaux6;
+                                    }
+                                    cout<<expresionaux6<<endl;
+                                    expresionaux6="";
+                                    /*expresion_aux3+=expresion_aux4; */
+                                }
+                                
                             }
+
                             expresion_resultante+=expresion_aux3;
                             expresion_aux3="";
                             expresion_aux4="";
@@ -195,7 +224,7 @@ string interpretador(string expresion){
                         else{
                             cout<<vector_expresiones.size()<<endl;
                             int random = 0 + rand() % vector_expresiones.size();
-                            expresion_resultante+=expresionRecursiva(vector_expresiones[random]);
+                            expresion_resultante+=interpretador(vector_expresiones[random]);
                             i=i+expresion_aux2.length()+1;
                         }
                     } 
@@ -223,23 +252,3 @@ string interpretador(string expresion){
     return expresion_resultante;
 }
 
-string expresionRecursiva(string expresion){
-string expresion_aux="";
-    string expresion_aux2="";
-    string expresion_aux3="";    
-    for(int p=0;p<expresion.length();p++){
-            if(expresion[p]!='*' && expresion[p+1]=='*'){
-                int repeticiones = rand() % 5 ; 
-                for(int r=0;r<repeticiones;r++){
-                    expresion_aux3=expresion[p];
-                    expresion_aux2+=expresion_aux3;
-                }
-                p++;
-            }
-            else{
-                expresion_aux2+=expresion[p];
-            }
-        }
-    cout<<"Recursiva :"<<expresion_aux2<<endl;
-    return expresion_aux2;
-}
